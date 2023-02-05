@@ -1,0 +1,41 @@
+class Solution {
+public:
+    int maxSubArray(vector<int>& nums) {
+
+  int n1 = nums.size();
+  // checking presence of all negative elements
+ /* int flag = 0;
+  for(int i = 0 ; i < n1 ; i++){
+      if(nums[i] > 0){
+          flag = 1;
+          break;
+      }
+  }
+  if(flag == 0){
+  int max = nums[0];
+  for(int i = 1 ; i < n1 ; i++){
+      if(max < nums[i])
+      max = nums[i];
+  }
+  return max;
+  }*/
+    int i = 0 , sum = 0 , max_sum = INT_MIN;
+    for(int j = 0 ; j < n1 ;){
+        sum += nums[j];
+        
+        if(max_sum < sum){
+            max_sum = sum;
+        }
+        if(sum < 0){
+            j++;
+            i = j;
+            sum = 0;
+        }
+        else
+        j++;
+       
+    }
+    return max_sum;
+    }
+};
+
