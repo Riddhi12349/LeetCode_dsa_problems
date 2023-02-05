@@ -1,0 +1,28 @@
+#include <climits>
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        
+        unordered_map<char , int> map;
+        int maxLen = 0 , i = 0 , j = 0 , n = s.size();
+        while(j < n){
+         
+            map[s[j]]++;
+             int k = map.size();
+            if(j-i+1 == k){
+                maxLen = max(maxLen , j-i+1);
+            }
+            if(j-i+1 > k){
+                while(j-i+1 > k){
+                    map[s[i]]--;
+                    if(map[s[i]] == 0){
+                        map.erase(s[i]);
+                    }
+                    i++;
+                }
+            }
+            j++;
+        }
+    return maxLen;
+    }
+};
