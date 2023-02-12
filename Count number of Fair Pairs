@@ -1,0 +1,46 @@
+class Solution {
+public:
+    long long countFairPairs(vector<int>& nums, int lower, int upper) {
+        
+        // BRUTE FORCE ******
+       
+        // int ans = 0;
+        // for(int i = 0 ; i < n ; i++){
+        //     for(int j = n-1 ; j > i  ; j--){
+        //         long long sum = nums[i] + nums[j];
+        //         if( sum <= upper && sum >= lower){
+        //             ans += 1;
+        //         }
+        //     }
+        // }
+        // return ans;
+
+    int n = nums.size();
+    sort(nums.begin() , nums.end());
+    int i = 0 , j = n-1 ;
+    long long  total_pairs = 0;
+    while(i < j){
+        if(nums[i] + nums[j] <= upper){
+            total_pairs += j-i;
+            i++;
+        }
+        else {
+            j--;
+        }
+    }
+
+    i = 0 , j = n-1 ;
+    long long pairs_l = 0;
+    while(i < j){
+        if(nums[i] + nums[j] < lower){
+                pairs_l += j-i;
+                i++;
+        }
+        else{
+            j--;
+        }
+    }
+
+    return total_pairs - pairs_l;
+    }
+};
