@@ -1,0 +1,22 @@
+class Solution {
+public:
+    long long findTheArrayConcVal(vector<int>& nums) {
+        
+        int i = 0 , j = nums.size()-1 ;
+        long long concat_val = 0;
+        while(i < j){
+            
+            string x = to_string(nums[i]);
+            string y = to_string(nums[j]);
+            string concat = x + y;
+            concat_val += stoi(concat);
+            i++;
+            j--;
+        }  
+        
+        if(nums.size() % 2 != 0){
+            concat_val += nums[i];
+        }
+        return concat_val;
+    }
+};
