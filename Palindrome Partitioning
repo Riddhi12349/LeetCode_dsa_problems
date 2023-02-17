@@ -1,0 +1,35 @@
+class Solution {
+public:
+
+ bool isPalindrome(string &s , int begin , int i){
+     for(int t = begin , p = i ; t <= p ; t++ ,p--){
+         if(s[t] != s[p]){
+             return false;
+         }
+     }
+     return true;
+ }
+void partitionHelper(string &s , vector<vector<string>> &ans , vector<string> &v1 , int begin ){
+
+   if(s.size() == begin){
+       ans.push_back(v1);
+       return ;
+   } 
+
+     for(int i = begin ; i < s.size() ; i++){
+         if(isPalindrome(s,begin , i)){
+             v1.push_back(s.substr(begin ,i - begin + 1));
+              partitionHelper(s , ans , v1 , i + 1);
+             v1.pop_back();
+         }
+     }
+    
+    }
+
+    vector<vector<string>> partition(string s) {
+        vector<string> v1;
+        vector<vector<string>> ans;
+         partitionHelper(s , ans , v1 , 0);
+         return ans;
+    }
+};
