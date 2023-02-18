@@ -16,6 +16,7 @@ public:
 
 class Solution {
 public:
+/*
     Node* helperf(Node* head){
         if(head == NULL){
             return NULL;
@@ -58,5 +59,27 @@ public:
                 p = p->next;
             }
             return newHead;
+        
+    }
+    */
+
+    Node* copyRandomList(Node* head){
+        unordered_map<Node* , Node*> map;
+        Node* p = head;
+        while(p != NULL){
+            map[p] = new Node(p->val);
+            p = p->next;
+        }
+
+        p = head;
+        while(p != NULL){
+
+        Node* newNode = map[p];
+        newNode->next = map[p->next];
+        newNode->random = map[p->random];
+
+        p = p->next;
+        }
+        return map[head];
     }
 };
