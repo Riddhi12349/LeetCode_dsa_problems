@@ -12,32 +12,16 @@ public:
         for(int i = 0 ; i < nums2.size() ; i++){
             map2[nums2[i]] += 1;
         }
-     sort(nums1.begin() , nums1.end());
-     sort(nums2.begin() , nums2.end());
 
-        for(int i = 0 ; i < nums1.size() ; i++){
-            if(map2.count(nums1[i]) == 0){
-                if(i == 0){
-                    ans1.push_back(nums1[i]);
-                }
-                else{
-                if(nums1[i] != nums1[i-1]){
-                      ans1.push_back(nums1[i]);
-                }
-           }
+        for(auto itr = map1.begin() ; itr != map1.end() ; itr++){
+            if(map2.count(itr->first) == 0){
+               ans1.push_back(itr->first);
             }  
         }
 
-         for(int i = 0 ; i < nums2.size() ; i++){  
-            if( map1.count(nums2[i]) == 0){
-                if(i == 0){
-                      ans2.push_back(nums2[i]);
-                }
-                else{
-                 if(nums2[i] != nums2[i-1])  {
-                     ans2.push_back(nums2[i]);
-                 }
-              }
+         for(auto itr = map2.begin() ; itr != map2.end() ; itr++){
+            if(map1.count(itr->first) == 0){
+                ans2.push_back(itr->first);
             }
         }
    ans.push_back(ans1);
