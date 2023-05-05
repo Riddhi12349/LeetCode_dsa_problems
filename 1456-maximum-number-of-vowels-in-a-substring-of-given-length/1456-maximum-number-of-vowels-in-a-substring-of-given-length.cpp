@@ -2,8 +2,7 @@ class Solution {
 public:
 
     int maxVowels(string s, int k) {
-     
-     
+      
       int maxi = 0 , cnt = 0 , i = 0 , j = 0;
       while(j < s.size()){
    if(s[j] == 'a' || s[j] == 'e' || s[j] == 'i' || s[j] == 'o' || s[j] == 'u'){
@@ -18,10 +17,7 @@ public:
         }
     j++;
 }
-// maxi = max(maxi , cnt);
-// int p;
-//  (maxi >= k) ? (p = k) : p = maxi;
-//  return p;   
+ 
     return maxi;
     }
 };
