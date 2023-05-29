@@ -2,8 +2,16 @@ class Solution {
 public:
     long helper(vector<int>& coins , int amt , int indx , vector<vector<int>>& dp){
         
-        if(indx >=  coins.size() || amt <= 0){
-            return (amt == 0) ? 0 : INT_MAX-1;
+        // if(indx >=  coins.size() || amt <= 0){
+        //     return (amt == 0) ? 0 : INT_MAX-1;
+        // }
+        
+        if(amt == 0){
+            return 0;
+        }
+        
+        if(indx >= coins.size() || amt < 0){
+            return INT_MAX-1;
         }
 
             if(dp[indx][amt] != -1){
