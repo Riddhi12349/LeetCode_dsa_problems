@@ -98,23 +98,39 @@ class Solution
 {
     public:
     
-    void helper(Node* root , vector<int>& v1){
-        
+    int helper1(Node* root){
+      
         if(root == NULL){
-            return;
+            return 0;
         }
         
-        helper(root->left , v1);
-        v1.push_back(root->data);
-        helper(root->right , v1);
+        return 1 + helper1(root->left) + helper1(root->right);
+    }
+    
+    int helper(Node* root , int& cnt , int k){
+        
+        if(root == NULL){
+            return 0;
+        }
+        
+       int l = helper(root->left , cnt , k);
+        
+        cnt++;
+        if(cnt == k){
+            return root->data;
+        }
+        
+       int r = helper(root->right , cnt , k);
+       
+       return (l == 0) ? r : l;
     }
     
     int kthLargest(Node *root, int k)
     {
         //Your code here
-        vector<int> v1;
-        helper(root , v1);
-        return v1[v1.size()-k];
+            int cnt = 0 ;
+            int n = helper1(root);
+            return helper(root , cnt, n-k+1);
     }
 };
 
