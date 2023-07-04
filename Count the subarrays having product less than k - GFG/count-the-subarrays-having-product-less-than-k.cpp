@@ -21,9 +21,11 @@ class Solution{
                 product = (product / a[i]);
                 i++;
             }
-            if(i <= j){
+            
+            if(product < k){
             ans += (j-i+1);
             }
+            
         }
         return ans;
     }
