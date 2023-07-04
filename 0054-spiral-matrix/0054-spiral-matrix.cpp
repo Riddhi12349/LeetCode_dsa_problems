@@ -1,49 +1,45 @@
 class Solution {
 public:
     vector<int> spiralOrder(vector<vector<int>>& matrix) {
-      
-        vector<int> ans;
-        int i , j;
-        int r = matrix.size();
-        int c = matrix[0].size();
-        int flag = 4;
-        for(int cnt = 0 ; cnt <= r/2 ; cnt++){
-     // forward
-             i = 0 + cnt;
-            if(flag == 4){
-            for(j = 0 + cnt ; j < c - cnt ; j++){
-                ans.push_back(matrix[i][j]);
-                flag = 0;
-            }
-        }
-            j = j-1;
+        
+        int m = matrix.size() , n = matrix[0].size();
+
+        int top = 0 , bottom = m-1;
+        int left = 0 , right = n-1;
+        int dir = 0;
+        vector<int>ans;
+
+        while(ans.size() < m*n){
+          if(dir == 0){
+              for(int j = left ; j <= right ; j++){
+                  ans.push_back(matrix[top][j]);
+              }
+              top++;
+          }
           
-    // downward
-        if(flag == 0){
-            for(i = 1 + cnt ; i < r - cnt ; i++){
-                 ans.push_back(matrix[i][j]);
-                 flag = 1;
-            }
+          else if(dir == 1){
+             for(int j = top ; j <= bottom ; j++){
+                 ans.push_back(matrix[j][right]);
+             }
+             right--;
+          }
+
+          else if(dir == 2){
+              for(int j = right ; j >= left ; j--){
+                  ans.push_back(matrix[bottom][j]);
+              }
+              bottom--;
+          }
+
+          else if(dir == 3){
+              for(int j = bottom ; j >= top ; j--){
+                  ans.push_back(matrix[j][left]);
+              }
+              left++;
+          }
+          dir = (dir+1)%4;
         }
-            i = i-1;
-            j = j-1;
-    // backward
-            if(flag == 1){
-            for( ; j >= 0 + cnt ; j--){
-                ans.push_back(matrix[i][j]);
-                flag = 2;
-            }     
-        }
-            i = i-1;
-            j = j+1;
-    // upward
-            if(flag == 2){
-            for( ; i >= 1 + cnt ; i--){
-                ans.push_back(matrix[i][j]);
-                flag = 4;
-            }
-        } 
-        }
+
         return ans;
     }
 };
