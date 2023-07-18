@@ -1,55 +1,50 @@
 class LRUCache {
 public:
-    
+    int size;
+    int cursize;
+
     unordered_map<int,int> mp;
     unordered_map<int,list<int>::iterator> address;
     
-    list<int> l; // doubly linked list
-    
-    int size;
-    int cur_size;
-    
+    list<int> l;
+
     LRUCache(int capacity) {
-        
         size = capacity;
-        cur_size = 0;
+        cursize = 0;
     }
     
     int get(int key) {
-        
+
         if(mp.find(key) == mp.end()) return -1;
-        
-   //     list<int>::iterator itr = address[key];
-        l.erase(address[key]);
-        address.erase(key);
+
+        l.erase(address[key]);  
         l.push_front(key);
+        address.erase(key);
         address[key] = l.begin();
-        
         return mp[key];
     }
     
     void put(int key, int value) {
         
+        // only keeping unique values in the cache --
         if(mp.find(key) != mp.end()){
-            l.erase(address[key]);
             mp.erase(key);
+            l.erase(address[key]);
             address.erase(key);
-            cur_size--;
+            cursize--;
         }
-        
-        if(cur_size == size){
-        // node to be removed will be present at the last   
-            int k = l.back();
-            l.pop_back();
-            mp.erase(k);
-            address.erase(k);
-            cur_size--;
+        if(cursize == size){
+          // delete last node of the cache       
+          int k = l.back();
+          mp.erase(k);
+          address.erase(k);
+          l.pop_back();
+          cursize--;
         }
-        
-        mp[key] = value;
         l.push_front(key);
         address[key] = l.begin();
-        cur_size++;
+        mp[key] = value;
+        cursize++;
     }
 };
 
