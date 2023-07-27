@@ -14,38 +14,36 @@ class Solution
     //Heapify function to maintain heap property.
     void heapify(int arr[], int n, int i)  
     {
-      int left = 2*i + 1;
-      int right = 2*i + 2;
+      int left = 2*i+1;
+      int right = 2*i+2;
       
       int largest_indx = i;
       
-      if(left < n && arr[largest_indx] < arr[left]){
+      if(left < n && arr[left] > arr[largest_indx]){
           largest_indx = left;
       }
-       
-       if(right < n && arr[largest_indx] <  arr[right]){
-           largest_indx = right;
-       }
-       
-        if(largest_indx !=  i ){
-            swap(arr[i] , arr[largest_indx]);
-            heapify(arr , n , largest_indx);
-        }   
-        else{ return ; }
-        
+      
+      if(right < n && arr[right] > arr[largest_indx]){
+          largest_indx  = right;
+      }
+      
+      if(i != largest_indx){
+          swap(arr[i] , arr[largest_indx]);
+          heapify(arr , n , largest_indx);
+      }
+      else{
+          return;
+      }
     }
-    
 
     public:
-    
     //Function to build a Heap from array.
     void buildHeap(int arr[], int n)  
     { 
-    // BUILD MAX HEAP INTO THE ARRAY
-    for(int i = (n-1)/2 ; i >= 0 ; i--){
-        heapify(arr , n, i);
-    }
     
+     for(int i = (n-1)/2 ; i >= 0 ; i--){
+         heapify(arr , n , i);
+     }
     }
 
     
@@ -54,7 +52,7 @@ class Solution
     void heapSort(int arr[], int n)
     {
         buildHeap(arr , n);
-        for(int i = n-1 ; i > 0 ; i--){
+        for(int i = n-1 ; i >= 1 ; i--){
             swap(arr[i] , arr[0]);
             heapify(arr , i , 0);
         }
