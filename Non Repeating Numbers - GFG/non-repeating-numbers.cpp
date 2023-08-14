@@ -31,6 +31,13 @@ public:
         //Hence ,  rightmost_bit_mask = (000010)
         
         
+        // THIS 1 WE HAVE GOT B/C 1 OF X OR Y HAS RIGHT-MOST-BIT = 1 
+        // AND OTHER HAS 0
+        // SO CATEGOTZING THE NOS ON THE BASIS OF THE RIGHTMOST BIT
+        // 1 VALE ALAG AND 0 VALE ALAG
+        // SAME CANCEL HO JAYENGE
+        // AND DIFFERENT VALE RH JAYENGE
+        
         int x = 0 , y = 0;
         
         for(int i = 0 ; i < nums.size() ; i++){
