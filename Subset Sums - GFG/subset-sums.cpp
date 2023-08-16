@@ -6,30 +6,22 @@ using namespace std;
 class Solution
 {
 public:
-    
-    void helper(vector<int>& arr , int n , vector<int>& ans , int indx , int s){
+    void find(vector<int>& a , int i , vector<int>& ans, int sum){
         
-        if(indx == n){
-            ans.push_back(s);
-            return ;
+        if(i >= a.size()){
+            ans.push_back(sum);
+            return;
         }
-        
-//        ans.push_back(arr[indx]);
-        s += arr[indx];
-        helper(arr , n , ans , indx + 1 , s);
-     //   ans.pop_back();
-         s -= arr[indx];
-        helper(arr , n , ans , indx+ 1 , s);
-        
-    
+        // PICK
+        find(a , i +1 , ans , sum + a[i]);
+        //NOT - PICK
+        find(a , i+1 , ans , sum);
     }
-    
-    vector<int> subsetSums(vector<int> arr, int n)
+    vector<int> subsetSums(vector<int> a , int N)
     {
-        // Write Your Code here
         vector<int> ans;
-        helper(arr , n , ans , 0 , 0);
-        return ans;
+       find(a , 0,  ans , 0);
+       return ans;
     }
 };
 
