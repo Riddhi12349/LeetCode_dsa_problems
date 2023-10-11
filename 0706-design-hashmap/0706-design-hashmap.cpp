@@ -1,12 +1,13 @@
 class MyHashMap {
 public:
     
-    int v1[10000000] ;
+    int v1[1000002] ;
     
     MyHashMap(){
-    for(int i = 0 ; i <= 1e6 ; i++){
-        v1[i] = -1;
-    }
+   // for(int i = 0 ; i <= 1e6 ; i++){
+   //     v1[i] = -1;
+   // }
+        fill(v1 , v1+1000001 , -1);
     }
     
     void put(int key, int value) {
