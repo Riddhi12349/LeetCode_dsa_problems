@@ -3,6 +3,7 @@ public:
     int maxNonDecreasingLength(vector<int>& a1 , vector<int>& a2) {
         
         //RELATE THIS QS TO LONGEST - INCREASING - SUBSEQUENCE
+        //Since it is SUBARRAY , so we need to see just our prevuious element
         int  n = a1.size();
         vector<int> len1(n , 1) , len2(n , 1);
 
