@@ -24,13 +24,27 @@ public:
             mp[a[i]].push_back(i);
         }
 
-        int mxlen = 0;
+        int mxlen = 1;
         for(auto x : mp){
             vector<int> v1 = x.second;
-            for(int low = 0 ; low < v1.size() ; low++){
+            //TAKES O(NLOG(N)) TIME----
+      /*   
+      for(int low = 0 ; low < v1.size() ; low++){
             int len = b_search(v1 , k , low);
             mxlen = max(mxlen , len); 
            }
+           */
+            //for O(N) TIME ----
+       int l = 0 , r = 0 , len = 1 , n = v1.size();
+            while(l < n){
+                while(r+1 < n &&
+                      ((v1[r+1]-v1[l]+1)-(r+1-l+1)) <= k){
+                    r++;
+                    len = max(len , r-l+1);
+                }
+                l++;
+                mxlen = max(mxlen , len);
+            }
         }
 
         return mxlen;
