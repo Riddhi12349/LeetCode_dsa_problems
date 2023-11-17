@@ -1,46 +1,27 @@
 class Solution {
 public:
- int miceAndCheese(vector<int>& reward1, vector<int>& reward2, int k) {
+    using p = pair<int,int>;
+    
+    int miceAndCheese(vector<int>& r1, vector<int>& r2, int k) {
         
-        int n = reward1.size();
-       /*
+        int  n = r1.size();
+
+        int sum = accumulate(r2.begin(),r2.end(),0);
+        
+        priority_queue<p,vector<p>,greater<p>> pq;
+        
         for(int i = 0 ; i < n ; i++){
-            reward1[i] = max(reward1[i] , reward2[i]);
+            int t = r2[i]-r1[i];
+            pq.push({t,i});
         }
-              
-        sort(reward1.begin() , reward1.end());
-        int j = n-1 , cnt = 0 , ans = 0;
-         key = key * 2;
-        while(j >= 0 && cnt != key){
-           ans += reward1[j];
-            j--;
-           cnt++;
+        
+        while(!pq.empty() && pq.size()>n-k){
+            p t = pq.top(); pq.pop();
+            int indx  = t.second;
+            sum += r1[indx];
+            sum -= r2[indx];
         }
-   
-        return ans;
-        */
-
-        vector<int> diff(n , 0); 
-         int sum = 0 ;
-        for(int i = 0 ; i < n ; i++){
-           int x = (reward1[i] - reward2[i]);
-            diff[i] = x;
-            sum += reward2[i];
-        }
-
-        sort(diff.begin() , diff.end() , greater<int>());
-       
-        // for(int i = 0 ; i < n ; i++){
-        //     sum += reward2[i];
-        // }
-
-        int p = 0;
-        while(k != 0){
-            sum += diff[p];
-            p++;
-            k--;
-        }
-
+        
         return sum;
     }
 };
