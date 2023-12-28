@@ -22,7 +22,7 @@ public:
                 while(pq.size() > 1){
                     ans += pq.top(); pq.pop();
                 }
-        }
+              }
         }
         return ans;
     }
