@@ -16,7 +16,7 @@ public:
        
         if((ot == 0 && zn == 0) || (on == 0 && zt == 0) 
           || (ot != 0 && on == 0) || 
-           (ot == 0 && on % 2 != 0))
+           (ot == 0 && on > 0))
             return false;
         
         
