@@ -22,17 +22,30 @@ public:
      int n = st.size();
      
       vector<vector<int>> jobs(n);
-      vector<int> dp(n,-1);
+      vector<int> dp(n+1,0);
         
      for(int i = 0 ; i < n  ; i++)
          jobs[i] = {st[i] , et[i] , pf[i]};
      
      sort(jobs.begin() , jobs.end());
-        
      sort(st.begin() , st.end());
         
-     int mx_profit = find(0 , st , dp , jobs);
+      int mx = -1; 
+     for(int i = n-1; i >= 0 ; i--){
+         
+         int nxt = lower_bound(st.begin()+i , st.end() , 
+                              jobs[i][1]) - st.begin();
+         
+         int pick = jobs[i][2] + dp[nxt];
+         int notpick = dp[i+1];
+         
+         dp[i] = max(pick  , notpick);
+         
+         mx = max(mx , dp[i]);
+     }
+  //   int mx_profit = find(0 , st , dp , jobs);
 
-     return mx_profit;
+    // return mx_profit;
+        return mx;
  }
 };
