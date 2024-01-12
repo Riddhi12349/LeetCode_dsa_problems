@@ -24,9 +24,9 @@ public:
                if(a.size()<2) {s="0";}
                
                string p  = s+a+v1[i].substr(2);
-                 cout<<p<<endl;
+            //     cout<<p<<endl;
                int pos = lower_bound(v1.begin(),v1.end(),p)-v1.begin();
-              cout<<x.first << " " << pos<<endl;
+            //  cout<<x.first << " " << pos<<endl;
                if((v1[pos-1] < p) && (pos-i>=3)){
                    ans.push_back(x.first);
                    break;
