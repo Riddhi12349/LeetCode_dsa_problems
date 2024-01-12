@@ -1,43 +1,36 @@
 class Solution {
 public:
-    bool isPossible(long long n,long long div1,long long div2,int cnt1,int cnt2){
+    using ll=long long;
+    
+    bool isvalid(int n ,int div1, int div2 , int cnt1, int cnt2){
+        ll lcm = (((ll)div1*div2)/((ll)__gcd(div1,div2)));
+        int inv = n/lcm;
+        int inv_d1 = n/div1 - inv;
+        int inv_d2 = n/div2 - inv;
         
-           long long p =(long long) __gcd(div1,div2);
-           long long lcm = ((long long)(div1*div2))/p;
-
-           long long both_invalid = n/lcm;
-           long long arr1_invalid = n/div1 - both_invalid;
-           long long arr2_invalid = n/div2 - both_invalid;
-          
-           long long can_be_in_any =  n - arr1_invalid - arr2_invalid - both_invalid;
-
-           if(cnt1 > arr2_invalid) {
-              can_be_in_any -= (cnt1-arr2_invalid);
-           }
-           if(cnt2 > arr1_invalid){
-               can_be_in_any -= (cnt2 -  arr1_invalid);
-           }
-           return (can_be_in_any >= 0);
+        int free = n-inv_d1-inv_d2-inv;
+        
+        if(cnt1-inv_d2 > 0)
+            free -=( cnt1-inv_d2);
+        if(cnt2-inv_d1 > 0)
+            free -=( cnt2-inv_d1);
+        
+        return free>=0;
     }
-
     int minimizeSet(int div1, int div2, int cnt1, int cnt2) {
-         
-          long long low = 1 , high = 2e9 , ans = INT_MAX;
-
-           while(low <= high){
-
-               long long mid = (low + high)/2;
-
-               if(isPossible(mid,div1,div2,cnt1,cnt2)){
-                   ans = min(ans,mid);
-                   high = mid-1;
-               }
-               else{
-                   low = mid+1;
-               }
+        ll l = 1 , h = 2e9, ans=INT_MAX;
+        
+        while(l <= h){
             
-           }
-
-           return ans;
+            ll m = (l + h)/2;
+            if(isvalid(m,div1,div2,cnt1,cnt2)){
+                ans = min(ans, m);
+                h = m-1;
+            }
+            else 
+               l = m+1;
+        }
+        
+        return ans;
     }
 };
