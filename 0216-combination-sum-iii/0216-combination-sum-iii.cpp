@@ -20,7 +20,7 @@ public:
         }
         
      for(int i = st ; i <= 9 ; i++){
-      //   if(n-i<0) return;
+        if(n-i<0) return;
          v1.push_back(i); //cout <<i<<" ";
          find(k,n-i,v1,i+1);
          v1.pop_back();
