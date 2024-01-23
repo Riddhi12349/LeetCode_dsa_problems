@@ -1,56 +1,36 @@
 class Solution {
 public:
-    int ans = INT_MIN;
-    void find(vector<string>& arr ,int i , string s){
+    bool isvalid(string t , string p){
+        //t and p should not have a common char
+        unordered_map <char,int> mp;
         
-        if(i >= arr.size()){
-           ans = max(ans , (int)s.size()) ;
-            return;
+        for(auto x : t)
+            mp[x]++;
+        for(auto x : p){
+            if(mp.count(x) > 0) return false;
+            mp[x]++;
         }
-        
-        //not-pick
-        find(arr , i+1 , s);
-        
-        //pick
-        //check--
-        int f = 0;
-        for(int j = 0 ; j < arr[i].size() ; j++){
-            if(s.find(arr[i][j]) != string::npos){
-                f = 1; break;
-            }
+        //t+p should have unique chars
+        for(auto x : mp){
+            if(x.second > 1) return false;
         }
-        if(f == 0){
-            string p = s;
-            p += arr[i];
-            find(arr , i+1, p);
-            
-        }
+        return true;
     }
-    int maxLength(vector<string>& arr) {
-      
-        vector<string> v1;
+    int find(vector<string>& a , int i, string prv){
         
-        for(int  i = 0 ; i < arr.size() ; i++){
-            
-            string tmp = arr[i];
-            
-            vector<int> count(26,0);
-            for(int i = 0 ; i < tmp.size() ; i++){
-                count[tmp[i]-'a']++;
-            }
-             int f = 0;
-            for(int i = 0 ; i < 26 ; i++){
-                if(count[i] > 1){
-                    f = 1; break;
-                }
-            }
-            
-            if(f == 0){
-                v1.push_back(tmp);
-            }
-            
+        if(i >= a.size()) return 0;
+        
+        int len=0;
+        if(isvalid(a[i],prv)){
+            string t = a[i]+prv;
+            len = a[i].size() + find(a,i+1,t);
         }
-        find(v1 , 0 , "");
-        return ans;
+        int len2 = find(a,i+1,prv);
+        
+        return max(len,len2);
+    }
+ 
+    int maxLength(vector<string>& a) {
+        return find(a , 0 , "");      
     }
 };
