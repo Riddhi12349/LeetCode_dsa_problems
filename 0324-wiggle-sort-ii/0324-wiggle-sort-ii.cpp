@@ -16,7 +16,7 @@ public:
         vector<int> v1(nums.begin() , nums.end());
         
         sort(v1.begin() , v1.end());
-        
+      /*  
         int j=0;
         for(int i=0 ; i<nums.size() ; i+=2,j++){
             nums[i] = v1[j];
@@ -26,7 +26,7 @@ public:
         }
         
        if(!isgood(nums)){
-           //put in decr-order
+      */     //put in decr-order
            int j = n-1;
            for(int i=1 ; i<n ; i+=2,j--){
                nums[i] = v1[j];
@@ -34,7 +34,7 @@ public:
            for(int i=0 ; i< n ; i+=2,j--){
                nums[i] = v1[j];
            }
-       }
+      // }
         
     }
 };
