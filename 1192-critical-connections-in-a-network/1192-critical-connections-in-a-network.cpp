@@ -9,7 +9,7 @@ public:
         timer++;
         
         for(auto adj_el : adj[src]){ 
-            if(adj_el == parent) continue; //impt_step**********
+            if(adj_el == parent) continue; //v.v.v.v.impt_step**********
             if(!vis[adj_el]){  
                 dfs(adj_el , src , tin, tlow , vis, adj);              
                 tlow[src] = min(tlow[src] , tlow[adj_el]);
