@@ -1,51 +1,28 @@
 class Solution {
 public:
-/****** dp TABLE ********
-    int helper(vector<vector<int>>& grid , int i , int j , vector<vector<int>>& dp , int m , int n) {
-*/
-        /*
-    dp[0][0] = grid[0][0];
-  for(int j = 1 ; j < n ; j++){
-      dp[0][j] = dp[0][j-1] + grid[0][j];
-  }
-  for(int i = 1 ; i < m ; i++){
-      dp[i][0] = dp[i-1][0] + grid[i][0];
-  }
-     for(int i = 1 ; i < m ; i++){
-       for(int j = 1 ; j < n ; j++){
-        dp[i][j] = grid[i][j] + min(dp[i-1][j] , dp[i][j-1]);
-               }
-           }
-
-           return dp[m-1][n-1];
-    }
-*/
-        int helper(vector<vector<int>>& grid , int i , int j , vector<vector<int>>& dp , int m , int n) {
-      
-        if(i == m-1 && j == n-1){
-            return grid[i][j];
-        }
-        if( i >= m|| j >= n || i < 0 || j < 0){
-           // return 201;
-            return INT_MAX;
-        }
-        if(dp[i][j] != -1){
-            return dp[i][j];
-        }
-        int x = grid[i][j];
-   
-
-int p = x + min(helper(grid , i , j+1 , dp , m , n) , helper(grid , i+1 , j , dp , m , n));
-        
-        dp[i][j] =  p;
-        return p;
-}
-     
     int minPathSum(vector<vector<int>>& grid) {
-    int m = grid.size() , n = grid[0].size();
-     vector<vector<int>> dp(m , vector<int>(n , -1));   
-
-    // vector<vector<int>> dp(m , vector<int>(n , 0));   
-       return helper(grid , 0 , 0 , dp , m , n);
+        
+        int m = grid.size() , n = grid[0].size();
+        
+        int dp[m+1][n+1];
+        memset(dp , INT_MAX , sizeof(dp));
+        
+        for(int i = m-1 ; i >= 0 ; i--){
+            for(int j = n-1; j >= 0 ; j--){
+                
+                if(i==m-1 && j==n-1) {
+                    dp[i][j] = grid[i][j];
+                    continue;
+                }
+                
+                int op1 = INT_MAX , op2 = INT_MAX;
+                if(i+1 < m){ op1 = dp[i+1][j]; }
+                if(j+1 < n){ op2 = dp[i][j+1]; }
+                
+                dp[i][j] = grid[i][j]+ min(op1 , op2);
+            }
+        }
+        
+        return dp[0][0];
     }
 };
