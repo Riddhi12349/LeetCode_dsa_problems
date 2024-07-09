@@ -1,46 +1,38 @@
 class Solution {
 public:
-//Will not work for if we have:
-//[1,2,1,1,1,1]
-//if a[mid]==a[low]==a[high] you cannot find the right position of the pivot
-// so it is impt to remove duplicate elements from endpoints
-// so that if a[low]==a[high]==X but X!=a[mid]  , for eg:[1,2,1] , then only you can compare that middle element with extreme element i.e. a[r]
-  
-    bool search(vector<int>& nums, int target) {
+    bool search(vector<int>& a, int target) {
+    //         l     m                 h
+        //A = [3 ,4, 5, 1 ,2 ,3, 3, 3, 3]
         
-        int n = nums.size();
+       //Array is ROTATED sorted with DUPLICATES    (above)
+        int n = a.size();
         int low = 0 , high = n-1;
         
-        while(low < high){
-            
-            while(low < high && nums[low] == nums[low + 1])
-                low++;
-            
-            while(low < high && nums[high] == nums[high - 1])
-                high--;
-
+        while(low <= high){
             int mid = (low + high)/2;
+            
+            if(a[mid] == target) return true; 
+            
+            if(a[mid] == a[low] && a[mid] == a[high]){ 
+              //shrink the search space
+                low = low+1; high = high-1; 
+                continue;
+            }
+            
 
-            if(nums[mid] > nums[high]){
-                low = mid + 1;
-            }
+            // detecting which part is sorted - left or rt
+            
+             if(a[low] <= a[mid]){
+                 if(target >= a[low] && target < a[mid]){ high = mid-1; }
+                 else { low = mid+1; }
+             } 
             else{
-                high = mid;
-                // if(nums[mid] <= nums[pvt_indx])
-                // pvt_indx = mid;
+                if(target > a[mid] && target <= a[high]){ low = mid+1; }
+                else { high = mid-1; }
             }
+             
         }
         
-        int pvt_indx = high;
-        
-  
-    if(binary_search(nums.begin() + pvt_indx , nums.end() , target)) 
-        return true;
-   
-   if(binary_search(nums.begin() , nums.begin()+pvt_indx , target))
-       return true;
-   
-       return false;
-        
+        return false;
     }
 };
