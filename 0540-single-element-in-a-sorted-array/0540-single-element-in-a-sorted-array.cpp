@@ -1,57 +1,29 @@
 class Solution {
 public:
-/*
-   int f(vector<int>& nums , int l , int h){ 
-       int mid , n = nums.size() ,ans1 = -1 , ans2 = -1;
-       if(l <= h){
-           mid = (l + h)/2;
-    if(mid != n-1 && nums[mid] == nums[mid + 1]){
-        ans1 = f(nums , l , mid - 1);
-        ans2 = f(nums , mid + 2 , h);
-    }
-    else if(mid != 0 && nums[mid] == nums[mid - 1]){
-        ans1 = f(nums , l , mid - 2);
-        ans2 = f(nums , mid + 1 , h);
-    }
-    else{
-        return nums[mid];
-    }
-    if(ans1 != -1 && ans2 == -1){ return ans1;   }
-    else{ return ans2; }
-  }
-       return -1;
-   }
-    int singleNonDuplicate(vector<int>& nums) {
-        return f(nums , 0 , nums.size() - 1);
-    }*/
-
-    int singleNonDuplicate(vector<int>& nums){
- 
- // edge cases
- int n  = nums.size();
-  if(nums.size() == 1){ return nums[0]; }
-  if(nums[0] != nums[1]){ return nums[0]; }
-  if(nums[n-1] != nums[n-2]){ return nums[n-1];  }
-
-
-
-        int lo = 0 , h = nums.size()-1 , mid;
-        while(lo <= h){
-            mid = (lo + h)/2;
-            if(nums[mid] != nums[mid + 1] && nums[mid] != nums[mid - 1]){
-                return nums[mid];
+    int singleNonDuplicate(vector<int>& a) {
+        
+        int n = a.size();
+        int low = 0 , high = n-1;
+        
+        while(low <= high){
+            
+            int mid = (low + high)/2;
+            
+            if(mid+1 < n && a[mid] == a[mid+1]){
+                int len = high-mid+1;
+                if(len % 2 != 0){ low = mid+2; }
+                else { high = mid-1; }
             }
-        else if(nums[mid] == nums[mid - 1]){
-                int leftCnt = mid - 1 - lo;
-                if(leftCnt % 2 == 0){ lo = mid + 1; }
-                else { h = mid - 2;}
+            else if(mid-1 >= 0 && a[mid]==a[mid-1]){
+                int len = mid-low+1;
+                if(len % 2 != 0){ high = mid-2; }
+                else{ low = mid+1; }
+            }
+           else{
+               return a[mid];
+           }
         }
-        else if(nums[mid] == nums[mid + 1]){
-            int rightCnt = h - mid-1;
-            if(rightCnt % 2 == 0){ h = mid - 1;    }
-            else { lo = mid + 2;}
-        }
-        }
+        
         return -1;
     }
 };
