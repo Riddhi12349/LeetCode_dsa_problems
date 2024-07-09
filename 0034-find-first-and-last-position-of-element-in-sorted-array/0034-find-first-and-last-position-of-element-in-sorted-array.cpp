@@ -1,49 +1,36 @@
 class Solution {
 public:
- // [2,2]
-    int first_occurence(vector<int>& nums , int target){
+    vector<int> searchRange(vector<int>& a, int target) {
         
-        int low = 0 , high = nums.size()-1;
-
-        while(low < high){
+        //implementing w/o using lower_bound and upper_bound
+        int n  = a.size();
+        
+        int f = -1 , l = -1;
+        
+        //finding first index
+        int low = 0 , high = n-1;
+        
+        while(low <= high){
             
             int mid = (low + high)/2;
-            if(nums[mid] > target){
-                high = mid-1;
-            }
-            else if(nums[mid] < target){
-                low = mid + 1;
-            }
-            else if(nums[mid] == target){
-                high = mid;
-            }
+            if(a[mid] == target){ f = mid; high = mid-1; }
+            else if(a[mid] > target) { high = mid-1; }
+            else { low = mid+1;  } 
         }
-     
-        return low;
-    }
-
-    vector<int> searchRange(vector<int>& nums, int target) {
         
-        int n = nums.size();
-
-        if(!binary_search(nums.begin(),nums.end(),target)){
-            return {-1,-1};
+        //finding last index
+        low = 0 , high = n-1;
+        while(low <= high){
+            
+            int mid = (low + high)/2;
+            if(a[mid] == target){ l = mid; low = mid+1; }
+            else if(a[mid] > target){ high = mid-1; }
+            else { low = mid+1 ; }
         }
-        else{
-     //  int pos1 = lower_bound(nums.begin(),nums.end(),target)-nums.begin();
-     //  int pos2 = lower_bound(nums.begin(),nums.end(),target+1)-nums.begin();
-    
-     int pos1 = first_occurence(nums , target);
-     int pos2;
-     if(target == nums[n-1]){
-         pos2 = n;
-     }
-     else{
-         pos2 = first_occurence(nums , target+1);
-     }
-        return {pos1 , pos2-1};
-       
-     }
-
+        
+        if(f == -1){ return {-1, -1}; }
+        
+        return {f,l};
+        
     }
 };
