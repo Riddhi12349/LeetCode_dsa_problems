@@ -1,56 +1,51 @@
 class Solution {
 public:
-    unordered_map <char,string> mp;
-    vector<string> ans;
-    void generate(){
-     
-        mp['2'] = "abc";
-        mp['3'] = "def";
-        mp['4'] = "ghi";
-        mp['5'] = "jkl";
-        mp['6'] = "mno";
-        mp['7'] = "pqrs";
-        mp['8'] = "tuv";
-        mp['9'] = "wxyz";
+    unordered_map <char,vector<string>> mp;
+    
+    void create(){
+      
+       mp['2'] = {"a" , "b", "c"};
+       mp['3'] = {"d" , "e", "f"};
+       mp['4'] = {"g" , "h" , "i"};
+       mp['5'] = {"j" , "k" , "l"};
+       mp['6'] = {"m" , "n" , "o"};
+       mp['7'] = {"p" , "q" , "r" , "s"};
+       mp['8'] = {"t" , "u" , "v"};
+       mp['9'] = {"w" , "x" , "y", "z"};
         
     }
     
-    void find(string digits , int pos , vector<string> v1){
-         
-        if(pos >= digits.size()) {
-            ans =v1;
-            return;}
+    vector<string> find(int i , string digits){
         
+        int n =  digits.size(); 
         
-        string tmp = mp[digits[pos]];//ghi
-        vector<string> v2;
+        vector<string> cur;
         
-        for(int i = 0 ; i < tmp.size() ; i++){
+        if(i >= n){
+            cur.push_back("");
+            return cur;
+        }
+        
+        vector<string> nxt = find(i+1 , digits);
+        
+        char ch = digits[i];
+        vector<string> v1 = mp[ch];
             
-            for(int j = 0 ; j < v1.size() ; j++){
-                string p = v1[j];
-                p += tmp[i];
-                v2.push_back(p);
+        for(int i = 0 ; i < v1.size() ; i++){
+            for(int j = 0 ; j < nxt.size() ; j++){
+                string tmp = v1[i] + nxt[j];
+                cur.push_back(tmp);
             }
+        }
         
-        
-             if(v1.size() == 0){
-               string x = "";
-                 x += tmp[i];
-               v2.push_back(x);         
-             }
-            
-     } 
-        find(digits , pos+1 , v2);
+        return cur;
     }
     
     vector<string> letterCombinations(string digits) {
         
-        generate();
+       if(digits.size() == 0) return {};
         
-        vector<string> v1;
-        find(digits , 0 , v1);
-        
-        return ans;
+       create();
+       return find(0 , digits);
     }
 };
