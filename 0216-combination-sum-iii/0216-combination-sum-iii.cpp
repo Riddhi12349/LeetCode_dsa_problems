@@ -1,34 +1,35 @@
 class Solution {
 public:
-   
     vector<vector<int>> ans;
+    int K , N;
     
-    void find(int st,int sum, int& k, int& tar, vector<int>& v1){
-     
-     if(sum>tar) return;
-     if(v1.size()==k){ 
-       if(sum==tar){
-         ans.push_back(v1);
-       }
-         return;}
-     if(st>9 || v1.size()>k) return;
+    void find(int i , int cnt , int s,  vector<int>& v1){
         
-     for(int i = st ; i <= 9 ; i++){
-         if(sum+i>tar) break;
-         v1.push_back(i); 
-         find(i+1,sum+i ,k,tar,v1);
-         v1.pop_back();
-     } 
-      
+        if(cnt == K || i >= 10 || s > N){
+            if(s == N && cnt == K){
+                ans.push_back(v1);
+                return;
+            }
+            
+            return;
+        }
+        
+        //pick
+        v1.push_back(i);
+        find(i+1 , cnt+1 , s + i , v1);
+        v1.pop_back();
+        
+        //not-pick
+        find(i+1 , cnt, s , v1);
     }
     
     vector<vector<int>> combinationSum3(int k, int n) {
         
+       K= k  , N=n;
         
         vector<int> v1;
-        find(1,0,k,n,v1);
-        
-      
-        return ans;
+        find(1 , 0 , 0, v1);
+            
+        return ans;  
     }
 };
