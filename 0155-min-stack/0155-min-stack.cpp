@@ -1,49 +1,34 @@
 class MinStack {
 public:
-  priority_queue<int , vector<int> , greater<int>> pq;
-  ListNode *head ;
-    MinStack() {
-      head = new ListNode(0);
-    }
+    //[-2 , 0 , -3, -5, -6, -8, -4, 2]
+    
+    stack<pair<int,int>> st;
+    
+    MinStack() {}
     
     void push(int val) {
-   
-        pq.push(val);
-
-        ListNode* newNode = new ListNode(val);
-        newNode->next = head;
-        head = newNode;
+        
+        int tmp = st.empty() == true ? INT_MAX : st.top().second;
+        st.push({val , min(val , tmp)}); 
     }
     
     void pop() {
-
-       ListNode* temp = head;
-       int x = temp->val;
-       head = head->next;
-       delete temp; 
-     
-     priority_queue<int, vector<int> , greater<int>> pq2;
-     int f = 0;
-     while(!pq.empty()){
-         int y = pq.top();
-         if(y != x || f == 1){
-             pq2.push(y);
-             pq.pop();
-         }
-         else{
-             pq.pop();
-             f = 1;
-         }
-     }
-     pq = pq2;
+        
+        st.pop();
     }
     
     int top() {
-        return head->val;
+        
+        if(st.empty()) return -1;
+        
+        return st.top().first;
     }
     
     int getMin() {
-        return pq.top();  
+        
+        if(st.empty()) return -1;
+        
+        return st.top().second;
     }
 };
 
