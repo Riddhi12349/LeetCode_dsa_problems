@@ -1,36 +1,50 @@
 class Solution {
 public:
     int compress(vector<char>& chars) {
-
-      string ans = "";
-      int n = chars.size();
-      for(int i = 0 ; i < n ; ){
-          int j = i+1;
-          int cnt = 1;
-          char temp = chars[i];
-          ans.push_back(temp);
-          while(j < n){
-              if(chars[j] == temp){
-                  cnt++;
-                  j++;
-              }
-              else{ break; }
-          }
-
-          if(cnt != 1){
-              
-              string str = to_string(cnt);
-              for(int i = 0 ; i < str.size() ; i++){
-                ans.push_back(str[i]);
+        
+        int n = chars.size() ;
+        int len = 0;
+        
+        vector<char> ans;
+        
+        for(int i = 0 ; i < n ; ){
+            
+            char ch = chars[i]; 
+            
+            int j = i+1;
+            ans.push_back(ch);
+            
+            int cnt = 1;
+            len++;
+            
+            for(; j < n ; j++){
+                if(chars[j] == ch){cnt++; }
+                else{ break; }
             }
-          }
-          i = j;
-      }  
-     chars.clear();
-     for(int i = 0 ; i < ans.size() ;i++){
-         chars.push_back(ans[i]);
-     }
-    
-      return ans.size();
+            
+            i = j;
+            
+            if(cnt > 1){
+                len++;
+                
+               string s  = to_string(cnt);
+                
+               for(int k = 0 ; k < s.size() ; k++){
+                   char ch = s[k];
+                   ans.push_back(ch);
+                   cout << ch << endl;
+               }
+                
+            //    cout << s << endl;
+            }
+            
+           // cout << ch << " " << cnt << endl;
+        }
+        
+        
+        chars = ans;
+        
+        return ans.size();
+        
     }
 };
