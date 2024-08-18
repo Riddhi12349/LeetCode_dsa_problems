@@ -1,31 +1,25 @@
 class Solution {
 public:
-    pair<int,int> find(TreeNode* root ){
+    int find(TreeNode* root , int& mxSum){
         
-        if(root == NULL){ 
-            return {0,-1e4}; 
-        }
+        if(root == NULL) return 0;
         
-        auto p1 = find(root->left);
-        auto p2 = find(root->right);
-     
-        int ls = root->val + p1.first;
-        int rs = root->val + p2.first;
-        int root_s = ls + rs - root->val;
+        int ls = find(root->left , mxSum);
+        int rs = find(root->right , mxSum); 
+         
+ 
+        int sum = max(root->val , root->val + max(ls, rs));
         
-        pair<int,int> ans;
+        mxSum = max({mxSum , sum , root->val + ls + rs});
         
-        ans.first = max({root->val , ls, rs});
-        ans.second = max({root_s , ans.first});
-        ans.second = max(ans.second , max(p1.second , p2.second));
-     
-        return ans;
+        return sum;
     }
     
     int maxPathSum(TreeNode* root) {
         
-        auto p1 = find(root); //{sum_at_root_level , mxsum_obtained}
-        return p1.second;
+        int mxSum = INT_MIN;
+        find(root , mxSum);
         
+        return mxSum;
     }
 };
