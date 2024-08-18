@@ -1,23 +1,24 @@
 class Solution {
 public:
-
-    bool helper(TreeNode* p , TreeNode* q){
-
-      if(p == NULL && q == NULL) return true;
-
-      if(p == NULL || q == NULL) return false;
-
-      if(p->val == q->val){
+    bool find(TreeNode* p1 , TreeNode* p2){
         
-          bool a1 = helper(p->left , q->right);
-          bool a2 = helper(p->right , q->left);
-         return a1 && a2;
-      }
-      else{
-          return false;
-      }
+        if(p1 == NULL && p2 == NULL)
+            return true;
+        
+        if(p1 == NULL || p2 == NULL)
+            return false;
+        
+        if(p1->val != p2->val)
+            return false;
+        
+        bool a1 = find(p1->left , p2->right);
+        bool a2 = find(p1->right, p2->left);
+        
+        return a1 & a2;
     }
+    
     bool isSymmetric(TreeNode* root) {
-       return helper(root->left , root->right);  
+     
+        return find(root , root);
     }
 };
