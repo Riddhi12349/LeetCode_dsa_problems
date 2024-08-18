@@ -1,28 +1,31 @@
 class Solution {
 public:
-
-    int maxPathSumHelper(TreeNode* root , int& ans){
-
-        if(root == NULL){
-            return 0;
+    pair<int,int> find(TreeNode* root ){
+        
+        if(root == NULL){ 
+            return {0,-1e4}; 
         }
-
-     int left = maxPathSumHelper(root->left , ans);
-     int right = maxPathSumHelper(root->right , ans);
-
-      
-        int p = max(root->val , root->val +  max(left , right)); //35, 25
-        ans = max(ans , max(p,root->val+left+right)); //42 ,34
-        return p;
+        
+        auto p1 = find(root->left);
+        auto p2 = find(root->right);
+     
+        int ls = root->val + p1.first;
+        int rs = root->val + p2.first;
+        int root_s = ls + rs - root->val;
+        
+        pair<int,int> ans;
+        
+        ans.first = max({root->val , ls, rs});
+        ans.second = max({root_s , ans.first});
+        ans.second = max(ans.second , max(p1.second , p2.second));
+     
+        return ans;
     }
+    
     int maxPathSum(TreeNode* root) {
         
-       if(root == NULL){
-            return 0;
-        }
-
-       int ans = INT_MIN;
-       int p = maxPathSumHelper(root , ans);
-       return max(p , ans);
+        auto p1 = find(root); //{sum_at_root_level , mxsum_obtained}
+        return p1.second;
+        
     }
 };
