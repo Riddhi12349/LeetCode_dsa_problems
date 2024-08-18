@@ -1,30 +1,21 @@
 class Solution {
 public:
-    pair<int,int> find(TreeNode* root){
-    
-        if(root == NULL){
-            return {0 , 0};
-        }
+    int find(TreeNode* root , int& dia){
         
-        auto p1 = find(root->left);
-        auto p2 = find(root->right);
+        if(root == NULL) return 0;
         
-        pair<int,int> ans;
+        int lh = find(root->left , dia);
+        int rh = find(root->right , dia);
         
-        ans.first = max(p1.first , p2.first) + 1;
-        
-        int dia_child = max(p1.second , p2.second);
-        int dia_root = p1.first + p2.first + 1;
-        
-        ans.second = max(dia_root , dia_child);
-        
-        return ans;
+        dia = max(dia , lh + rh + 1);
+        return max(lh , rh) + 1;
     }
     
     int diameterOfBinaryTree(TreeNode* root) {
+       
+        int dia = 0;
+        find(root , dia);
         
-        pair<int,int> p1 = find(root); //{ht , diameter} 
-        return p1.second-1;
-        
+        return dia-1;
     }
 };
