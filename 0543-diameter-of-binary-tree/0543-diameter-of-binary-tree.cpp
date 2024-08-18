@@ -1,34 +1,30 @@
 class Solution {
 public:
- // f = ht , s = dia
-    pair<int, int> helper(TreeNode* root){
-
+    pair<int,int> find(TreeNode* root){
+    
         if(root == NULL){
-            pair<int,int> p;
-            p.first = 0;
-            p.second = 0;
-            return p;
+            return {0 , 0};
         }
-
-     pair<int,int> p1 =  helper(root->left);
-     pair<int,int> p2 =  helper(root->right);
-
-    pair<int, int> ans;
-
-     if(p1.first > p2.first){
-         ans.first = p1.first + 1;
-     }
-     else{
-         ans.first = p2.first + 1;
-     }
-
-     int dia = max(p1.second , p2.second);
-     ans.second = max(p1.first + p2.first + 1 , dia);
-     
-     return ans;
+        
+        auto p1 = find(root->left);
+        auto p2 = find(root->right);
+        
+        pair<int,int> ans;
+        
+        ans.first = max(p1.first , p2.first) + 1;
+        
+        int dia_child = max(p1.second , p2.second);
+        int dia_root = p1.first + p2.first + 1;
+        
+        ans.second = max(dia_root , dia_child);
+        
+        return ans;
     }
+    
     int diameterOfBinaryTree(TreeNode* root) {
-       pair<int, int> p = helper(root);
-       return p.second-1;
+        
+        pair<int,int> p1 = find(root); //{ht , diameter} 
+        return p1.second-1;
+        
     }
 };
