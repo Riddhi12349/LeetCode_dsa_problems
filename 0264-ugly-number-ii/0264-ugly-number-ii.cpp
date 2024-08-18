@@ -2,27 +2,34 @@ class Solution {
 public:
     int nthUglyNumber(int n) {
         
-        set<long long> st1 , st_ans;
+        vector<int> dp(n , 0);
+        dp[0] = 1; // dp[i] indicates or stores 0th ugly number 
         
-        st1.insert(1);
+        int p2 = 0 , p3 = 0 , p5 = 0;
         
-        while(st_ans.size() < n){
-          
-            auto it = st1.begin();
-            long long fr = *it;
-            st1.erase(it);
+        for(int i=1 ; i < n ; i++){
             
-            st_ans.insert(fr);
+            int twoMultiple = dp[p2]*2; //1*2 =2
+            int threeMultiple = dp[p3]*3; //1*3 = 3
+            int fiveMultiple = dp[p5]*5; //1*5 = 5
             
-            st1.insert(fr*2);
-            st1.insert(fr*3);
-            st1.insert(fr*5);
+            dp[i] = min({twoMultiple , threeMultiple , fiveMultiple});
             
+            if(twoMultiple == dp[i]){
+                p2++;
+            }
+            
+            if(threeMultiple == dp[i]){
+                p3++;
+            }
+            
+            if(fiveMultiple == dp[i]){
+                p5++;
+            }                
+             
         }
         
-        
-        auto it = --st_ans.end();
-        return *it;
+        return dp[n-1];
         
     }
 };
