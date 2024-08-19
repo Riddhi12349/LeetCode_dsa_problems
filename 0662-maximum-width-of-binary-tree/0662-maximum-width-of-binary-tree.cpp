@@ -1,43 +1,39 @@
 class Solution {
 public:
+    using ll = long long;
+    
     int widthOfBinaryTree(TreeNode* root) {
         
-        if(root == NULL){ 
-            return 0;
-        }
-        queue<pair<TreeNode*,long>> q;
+        int mxWidth = 0;
+        
+        queue< pair<TreeNode* , ll> > q; //{NODE , INDEX}
+      
         q.push({root , 0});
-        int width = 1;
-
-     while(!q.empty()){
-
-            auto front = q.front();
+        
+        while(!q.empty()){
             
-            int st_indx = q.front().second;
-            int end_indx = q.back().second;
-
-            width = max(width , end_indx - st_indx + 1);
-
-            long level_size = q.size();
-
-         for(int i = 1 ; i<= level_size  ; i++){
-
-            auto front = q.front();
-
-            long indx = front.second - st_indx;
-            TreeNode* node = front.first;
-
+           int s = q.size();
+           ll fi = -1, li =  -1;
+            
+           for(int i=1 ; i <= s ; i++){
+            
+            auto p = q.front();
             q.pop();
-
-            if(node->left != NULL){
-                q.push({node->left , (long)2*indx + 1});
-            }
-            if(node->right != NULL){
-                q.push({node->right , (long)2*indx + 2});
-            }
+                           
+            TreeNode* node = p.first;
+            int indx = p.second;
+            
+            if(fi == -1) fi = indx;
+            li = indx;
+               
+            if(node->left) q.push({ node->left , (ll)2*indx });
+            if(node->right) q.push({node->right , (ll)2*indx + 1});
+           
+           }
+            
+            int width = li-fi+1;
+            mxWidth  = max(mxWidth , width);
         }
+        return mxWidth;
     }
-
-    return width;
- }
 };
