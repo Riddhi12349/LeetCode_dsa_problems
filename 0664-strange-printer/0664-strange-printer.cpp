@@ -1,29 +1,33 @@
 class Solution {
 public:
- int dp[100][100];
-
- int find(int i , int j , string& s){    
-  
-  if(i == j){ return 1; }
-
-  if(dp[i][j] != -1){
-      return dp[i][j];
-  }   
-
-  int ans = INT_MAX;
-  for(int k = i ; k < j ; k++){
-  ans = min(ans , find(i , k , s) + find(k+1 , j , s));
-   }
-  if(s[i] == s[j]){   ans -= 1; }
-
-  return dp[i][j] = ans;
- } 
-
+    
+    int findTurns(int i , int j , string& s , vector<vector<int>>& dp){
+        
+         if(i==j) return 1;
+          
+         if(dp[i][j] != -1){
+             return dp[i][j];
+         }
+        
+         int mnTurns = INT_MAX;
+         
+         for(int k=i ; k < j ; k++){
+             
+         
+             mnTurns = min(mnTurns ,
+                           findTurns(i , k , s , dp)+findTurns(k+1 , j , s , dp));
+         }
+        
+         if(s[i] == s[j]) mnTurns -= 1;
+       
+         return dp[i][j]  = mnTurns;
+    }
+    
     int strangePrinter(string s) {
         
-        memset(dp , -1 , sizeof(dp));
-        int ans = INT_MAX; int n = s.size();
-        ans = min(ans , find(0 , n-1 , s));
-        return ans;
+        int n = s.size();
+   
+        vector<vector<int>> dp(n+1 , vector<int>(n+1 , -1));
+        return findTurns(0 , n-1 , s , dp);
     }
 };
