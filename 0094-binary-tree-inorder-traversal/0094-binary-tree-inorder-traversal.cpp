@@ -3,21 +3,31 @@ public:
     vector<int> inorderTraversal(TreeNode* root) {
         
         vector<int> ans;
-        stack<TreeNode*> st;
-        TreeNode* p = root;
-
-        while(!st.empty() || p!= NULL){
-
-            if(p != NULL){
-                st.push(p);
-                p = p->left;
+        
+        TreeNode* cur = root;
+        
+        while(cur != NULL){
+            
+            if(cur->left != NULL){
+                
+                TreeNode* leftChild = cur->left;
+                while(leftChild->right != NULL){
+                    leftChild = leftChild->right;
+                }
+                
+                leftChild->right = cur;
+                
+                TreeNode* tmp = cur;
+                cur = cur->left;
+                tmp->left = NULL;
+                
             }
+            
             else{
-                TreeNode* top = st.top();
-                st.pop();
-                ans.push_back(top->val);
-                 p = top->right;
+                ans.push_back(cur->val);
+                cur = cur->right;
             }
+                
         }
         
         return ans;
