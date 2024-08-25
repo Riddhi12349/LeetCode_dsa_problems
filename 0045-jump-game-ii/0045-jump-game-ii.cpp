@@ -3,19 +3,22 @@ public:
     int jump(vector<int>& nums) {
         
         //****USING GREEDY TECHNIQUE
-            
-          int mxReach = 0 , curReach = 0 , jumps = 0;
+         int n= nums.size();
+         int jumps = 0 , l = 0  , r = 0 ;
         
-          for(int i = 0 ; i < nums.size()-1 ; i++){
-              
-              mxReach = max(mxReach , i + nums[i]);
-              
-              if(i == curReach){
-                  jumps++;
-                  curReach = mxReach;
-              }
-          }
+         while(r < n-1){
+             
+               int farthest = INT_MIN;
+             
+               for(int i = l ; i <= r; i++){
+                   farthest = max(farthest , i + nums[i]);
+               }
+             
+               l = r+1;
+               r = farthest;
+               jumps++;
+         }
         
-        return jumps;
+         return jumps;
     }
 };
