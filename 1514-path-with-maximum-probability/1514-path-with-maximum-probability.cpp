@@ -1,27 +1,26 @@
 class Solution {
 public:
-    using p = pair<int,double> ;
+    using  p = pair< double,int >;
     
     double maxProbability(int n, vector<vector<int>>& edges, 
-                         vector<double>& succProb, 
-                         int stNode, int endNode) {
+                          vector<double>& succProb, 
+                          int stNode, int endNode) {
         
-        unordered_map <int,vector<p> > mp;
+        unordered_map <int,vector<p>> mp;
         
         for(int i = 0 ; i < edges.size() ; i++){
-            
+         
             int u = edges[i][0] , v = edges[i][1];
-            mp[u].push_back({v , succProb[i]});
-            mp[v].push_back({u , succProb[i]});
+            mp[u].push_back({succProb[i] , v});
+            mp[v].push_back({succProb[i] , u});
         }
         
-        priority_queue<pair<double , int>> pq; 
-        //Declaring Max-Pq for [Prob , Node]
+        priority_queue<p> pq; //{ Prob , Node} // prob = probability to reach this starting from th startNode
         
         vector<double> result(n , 0.0);
-        result[stNode] = 1.0;
+        result[stNode] = 1;
         
-        pq.push({1.0  , stNode});
+        pq.push({1 , stNode});
         
         while(!pq.empty()){
             
@@ -33,11 +32,11 @@ public:
             
             for(auto adj : mp[node]){
                 
-                int nbNode = adj.first;
-                double  probToReach = adj.second;
+                int nbNode = adj.second;
+                double probToReach = adj.first;
                 
-                if(result[nbNode] < prob*probToReach){
-                    result[nbNode] = prob*probToReach;
+                if(result[nbNode] < probToReach*prob){
+                    result[nbNode] = probToReach*prob;
                     pq.push({result[nbNode] , nbNode});
                 }
                 
