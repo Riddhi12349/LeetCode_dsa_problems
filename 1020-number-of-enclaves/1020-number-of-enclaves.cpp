@@ -1,63 +1,46 @@
 class Solution {
 public:
-
-/*  int dfs(vector<vector<int>>& grid , int r , int c) {
-      int m = grid.size(), n = grid[0].size();
-      if(r >= m || c >= n || r < 0 || c < 0){
-          return 0;
-      }
-      if(grid[r][c] == 0){
-          return 0;
-      }
-      if(grid[r][c] == 1){
-          grid[r][c] = 0;
-    
-    int x =  dfs(grid , r , c+1);
-    int y =  dfs(grid , r+1 , c);
-    int z =  dfs(grid , r-1 , c);
-    int p =  dfs(grid , r , c-1);
-    return x + y + z + p + 1;
-      }
-      return 0;
-  }*/
-  void boundary_check_dfs(vector<vector<int>>& grid , int r , int c) {
-    
-     int m = grid.size(), n = grid[0].size();
-      if(r < 0 || c < 0 || r >= m || c >= n){
-          return;
-      }
-      if(grid[r][c] == 0){
-          return ;
-      }
-      if(grid[r][c] == 1){
-      grid[r][c] = 0;
-    
-      boundary_check_dfs(grid , r , c+1);
-       boundary_check_dfs(grid , r+1 , c);
-       boundary_check_dfs(grid , r-1 , c);
-       boundary_check_dfs(grid , r , c-1);  
-      }
-  }
-    int numEnclaves(vector<vector<int>>& grid) {
-
-        int m  = grid.size() , n = grid[0].size();
+    void dfs(int r , int c , vector<vector<int>>& vis, vector<vector<int>>& grid){
+     
+        int m=grid.size() , n = grid[0].size();
         
-        for(int i = 0 ; i < m ; i++){
-            for(int j = 0 ; j < n ; j++){
- if(grid[i][j] == 1 && (i == 0 || j == 0 || i == m-1 || j == n-1)){
-                 boundary_check_dfs(grid , i , j);
-             }
-        }
+        if(r < 0 || c < 0 || r >= m || c >= n || grid[r][c] == 0) return;
+        
+        if(vis[r][c] == 1) return;
+        
+        vis[r][c] = 1;
+        
+        dfs(r+1 , c , vis , grid);
+        dfs(r , c+1 , vis ,grid);
+        dfs(r, c-1, vis , grid);
+        dfs(r-1 , c , vis, grid);
+        
     }
-    int no_of_lands = 0;
-      for(int i = 0 ; i < m ; i++){
-            for(int j = 0 ; j < n ; j++){
-            if(grid[i][j] == 1){
-      //       no_of_lands += dfs(grid , i , j);
-                no_of_lands += 1;
-                }
+    
+    int numEnclaves(vector<vector<int>>& grid) {
+        
+        int m = grid.size() , n = grid[0].size();
+        
+        vector<vector<int>> vis(m , vector<int>(n , 0));
+        
+        for(int i=0 ; i < m ; i++){
+            if(grid[i][0] == 1) dfs(i , 0 , vis , grid);
+            if(grid[i][n-1] == 1) dfs(i , n-1 , vis, grid);
+        }
+        
+        for(int j=0 ; j < n ; j++){
+            if(grid[0][j] == 1) dfs(0 , j , vis , grid);
+            if(grid[m-1][j] == 1) dfs(m-1 , j , vis , grid);
+        }
+        
+        int cnt=0;
+        
+        for(int i=0; i<m ; i++){
+            for(int j=0; j<n ;j++){
+                if(grid[i][j] == 1 && vis[i][j] == 0){ cnt++;}
             }
         }
-    return no_of_lands;
-        }
+        
+        return cnt;
+    }
 };
