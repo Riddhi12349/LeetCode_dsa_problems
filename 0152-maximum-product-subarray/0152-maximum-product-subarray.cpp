@@ -11,7 +11,7 @@ public:
             prod_mn = prod_mn*x;
             
             mxProd = max({mxProd , prod_mx , prod_mn});
-            mnProd = min({mnProd , prod_mn , prod_mx});
+            //mnProd = min({mnProd , prod_mn , prod_mx});
             
      //       cout << "first" << prod_mx <<  " " << prod_mn << endl;
             
@@ -24,6 +24,6 @@ public:
         }
         
         
-        return max(mxProd , mnProd);
+        return mxProd;
     }
 };
