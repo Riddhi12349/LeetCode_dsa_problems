@@ -1,90 +1,29 @@
-
-
 class Solution {
 public:
-/*
-    int Product(vector<int>& nums , int l , int h) {
-           
-        int p = 1 , cnt = 0;
-        int maxp = INT_MIN;
-     
-        for(int i = l ; i <= h ; i++){
-           if(nums[i] < 0){ cnt++; }
-         
-            p = p * nums[i]; 
-            maxp = max(maxp , p); 
-          
-        }
-
-        if(cnt % 2 == 0){
-       return maxp;
-             }
-        else{
-            int p1 = 1 , p2 = 1 , maxp1 = INT_MIN , maxp2 = INT_MIN;
-            int i = l;
-            while(nums[i] > 0){
-                i++;
-            }
-            i = i+1;
-            for( ; i <= h ; i++){
-                p1 *= nums[i];
-                maxp1 = max(maxp1 , p1);
-            }
-
-            int j = h;
-            while(nums[j] > 0){
-                j--;
-            }
-            j= j-1;
-            for( ; j>= l ;j--){
-                p2 *= nums[j];
-                maxp2 = max(maxp2 , p2);
-            }
-
-            return max(maxp1 , maxp2);
-        }
-    }
-    int maxProduct(vector<int>& nums){
-      
-       int n = nums.size();
-        if(n == 1){ return nums[0]; }
-
-        int maxp = INT_MIN;
-        int i = 0 , j = 0;
-        for( ; j < nums.size() ; ){
-            if(nums[j] == 0){
-                int r = Product(nums , i , j-1); //-2
-                maxp = max(maxp , max(r,0)); //0
-                while(j < n && nums[j] == 0){ j++ ; }
-                i = j;
-            }
-            else{
-                j++;
-            }
-        }
-        if(i < n && i <= j){
-        int r = Product(nums, i , j-1);
-        maxp = max(maxp, r);
-        }
-        return maxp;
-    }
-    */
-
-    int maxProduct(vector<int>& nums){
+    int maxProduct(vector<int>& nums) {
         
-        int maxp = nums[0];
-        int minp = nums[0];
-        int ans = nums[0];
-        for(int i = 1 ; i < nums.size() ; i++){
-
-            if(nums[i] < 0){
-                swap(maxp , minp);
-            }
-
-            maxp = max(nums[i] , maxp * nums[i]);
-            minp = min(nums[i] , minp * nums[i]);
-            ans = max(ans , maxp);
+        int prod_mx = 1 , prod_mn = 1 ;
+        int mxProd = INT_MIN , mnProd = INT_MAX;
+        
+        for(auto x : nums){
+            
+            prod_mx = prod_mx*x;
+            prod_mn = prod_mn*x;
+            
+            mxProd = max({mxProd , prod_mx , prod_mn});
+            mnProd = min({mnProd , prod_mn , prod_mx});
+            
+            cout << "first" << prod_mx <<  " " << prod_mn << endl;
+            
+            int tmp = prod_mx;
+             prod_mx = max({prod_mx, prod_mn  , 1});            
+             prod_mn = min({prod_mn , tmp , 1});
+            
+            cout << "second" << prod_mx << " " << prod_mn << endl;
+            
         }
-        return ans;
+        
+        
+        return max(mxProd , mnProd);
     }
 };
