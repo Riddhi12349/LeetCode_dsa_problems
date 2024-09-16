@@ -1,64 +1,72 @@
-
-
-
 class Solution {
-    vector<int>dp;int n;
-    struct TrieNode{
-        // unordered_map<char,TrieNode*>children;
-        TrieNode*children[26];
+    public:
+    //LETS CREATE A TRIE
+    class TrieNode{
+      public:
+        TrieNode* children[26];
         TrieNode(){
-            for(int i=0;i<26;i++){
-                children[i]=NULL;
-            }
+            for(int i=0; i<26; i++)
+                children[i] = NULL;
         }
     };
-
-   // class Trie{
-        TrieNode * root;
-
-   /* public: 
-        Trie(){
-            root = new TrieNode();
+    
+    TrieNode* root;
+        
+    void insert(string word){
+        
+        TrieNode* cur = root;
+        
+        for(char ch : word){
+            if(cur->children[ch-'a'] == NULL)
+                cur->children[ch-'a'] = new TrieNode();
+            cur = cur->children[ch-'a'];
         }
-*/
-        void insert(string &word){
-            TrieNode*node=root;
-            for(int i=0;i<word.size();i++){
-                char child = word[i];
-                if(node->children[child-'a']==NULL)
-                    node->children[child-'a']=new TrieNode();
-                node=node->children[child-'a'];
-            }
+    }   
+    
+    int find(int idx , string& target , vector<int>& dp){
+        
+        
+        int i=idx , n = target.size() , ans = 1e6;
+        
+        if(idx==n) return 0;
+        
+        if(dp[idx] != -1) return dp[idx];
+        
+        TrieNode* node = root;
+        
+        while(i < n){
+            
+            char ch = target[i];
+            
+            if(node->children[ch-'a'] == NULL) break;
+            
+            ans = min(ans , 1 + find(i+1 , target , dp));
+            
+            node = node->children[ch-'a'];
+            i++;
         }
+        
+        return dp[idx] = ans;
+    }
+    
+    
 
-        int helper(int idx,string &target,vector<int>&dp){
-            if(idx==target.size())return 0;
-            TrieNode*node=root;
-            if(dp[idx]!=-1)return dp[idx];
-            int ans=1e6;
-            int i=idx;
-            int n=target.size();
-            while(i<n){
-                 char child = target[i];
-                 if(node->children[child-'a']==NULL)break;
-                 ans=min(ans,helper(i+1,target,dp)+1);
-                 node=node->children[child-'a'];
-                 i++;
-            }
-            return dp[idx]=ans;
-        }
-  //  };
-public:
     int minValidStrings(vector<string>& words, string target) {
-        n=target.size();
         
         root = new TrieNode();
         
-       // Trie t ;
-        for(auto it:words) insert(it);
-        dp=vector<int>(n,-1);
-        int ans= helper(0,target,dp);
-        if(ans>=1e6)return -1;
-        return ans;
+        for(auto word : words){
+            insert(word);
+        }
+        
+        int n = target.size();
+        vector<int> dp(n+1 , -1);
+        
+        int cnt = find(0 , target , dp);
+        
+        if(cnt>=1e6) return -1;
+        
+        return cnt;
+        
     }
 };
