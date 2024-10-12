@@ -2,51 +2,48 @@ class Solution {
 public:
     int smallestChair(vector<vector<int>>& times, int targetFriend) {
         
-        vector<pair<int,int>> arr; 
-        vector<pair<int,int>> dept;
+        vector<pair<int,int>> arr , dept;
         
         int n = times.size();
         
         for(int i = 0 ; i < n ; i++){
-            arr.push_back({times[i][0] , i});
+            arr.push_back({times[i][0], i});
             dept.push_back({times[i][1] , i});
         }
         
         sort(arr.begin() , arr.end());
         sort(dept.begin() , dept.end());
         
-        unordered_map<int,int> occupied_Chairs;
-        priority_queue <int,vector<int>,greater<int>> unoccupied_chairs;
+        priority_queue<int,vector<int>,greater<int>> unoccupiedChairs;
+        for(int k=0 ; k<n; k++) unoccupiedChairs.push(k);
         
-        for(int k = 0 ; k < n ; k++){
-            unoccupied_chairs.push(k);
-        }
+        unordered_map <int,int> occupiedChairs;
         
-        int i = 0 , j = 0 , cnt= 0;
-        
+        int i = 0 , j = 0;
         while(i < n){
             
-            if(j < n && arr[i].first < dept[j].first){
-                cnt++;
-                
+            if(j<n && arr[i].first < dept[j].first){
+                //next chair
                 int person = arr[i].second;
-                
-                occupied_Chairs[person] = unoccupied_chairs.top();
-                unoccupied_chairs.pop();
+                occupiedChairs[person] = unoccupiedChairs.top();
+                unoccupiedChairs.pop();
                 
                 if(person == targetFriend){
-                    return occupied_Chairs[person];
+                    return occupiedChairs[person];
                 }
+                
                 i++;
             }
             else{
                 int person = dept[j].second;
                 
-                unoccupied_chairs.push(occupied_Chairs[person]);
-                occupied_Chairs.erase(person);
+                //chair on which he left
+                int chair = occupiedChairs[person];
+                unoccupiedChairs.push(chair);
+                
+                occupiedChairs.erase(person);
                 j++;
-            }     
-            
+            }
         }
         
         return -1;
