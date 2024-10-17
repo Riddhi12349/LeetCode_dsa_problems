@@ -1,38 +1,34 @@
 class Solution {
 public:
-    bool isPossible(int diff , vector<int>& start , int d){
+    using ll = long long;
+    
+    bool isAchievable(int score , vector<int>& start , int d){
+     
+        ll n = start.size() , st = start[0];
         
-        long long st = 0, n = start.size(); 
-        
-      //  start = [0,3,6] , d =2 ; diff=3 st=0+3+3
-        
-        for(int i = 0 ; i < n ; i++){
+        for(int i = 1 ; i < n ; i++){
             
-            st = max(st , (long long)start[i]);
-            
-            if(st >  start[i]+d){
-                return false;
-            }
-            
-            st += diff;
+            st += score;
+            if(st > start[i]+d) return false;
+            else if(st < start[i]) st = start[i];
         }
         
         return true;
     }
     
     int maxPossibleScore(vector<int>& start, int d) {
-        
+          
         sort(start.begin() , start.end());
+         
+        ll n = start.size() , low = 0 , high = start[n-1]+d-start[0];
         
-        int n = start.size();
-        
-        long long low = 0 , high = start[n-1]+d+2  , ans = -1;
+        int ans = -1;
         
         while(low <= high){
             
-            long long mid = (low + high)*1ll/2;
+            ll mid = (low + high)/2;
             
-            if(isPossible(mid , start , d)){
+            if(isAchievable(mid , start , d)){
                 ans = mid;
                 low = mid+1;
             }
@@ -42,5 +38,6 @@ public:
         }
         
         return ans;
+        
     }
 };
