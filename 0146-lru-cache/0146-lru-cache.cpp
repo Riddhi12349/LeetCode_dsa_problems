@@ -1,50 +1,56 @@
 class LRUCache {
 public:
-    int size;
-    int cursize;
-
-    unordered_map<int,int> mp;
-    unordered_map<int,list<int>::iterator> address;
+    unordered_map <int,list<int>::iterator> addrMp; // MAP-KEY-ADDRESS
+    unordered_map <int,int> mp; //MAP-KEY-VALUE
     
-    list<int> l;
-
+    int curSize , totSize;
+    list<int> li;
+    
     LRUCache(int capacity) {
-        size = capacity;
-        cursize = 0;
+        
+        curSize  = 0;
+        totSize  = capacity;
     }
     
     int get(int key) {
-
-        if(mp.find(key) == mp.end()) return -1;
-
-        l.erase(address[key]);  
-        l.push_front(key);
-        address.erase(key);
-        address[key] = l.begin();
+        
+        if(mp.count(key) == 0) return -1;
+     
+        auto addr = addrMp[key];
+        li.erase(addr);
+        addrMp.erase(key);
+        
+        li.push_back(key);
+        addrMp[key] = --li.end();
+        
         return mp[key];
     }
     
     void put(int key, int value) {
         
-        // only keeping unique values in the cache --
-        if(mp.find(key) != mp.end()){
+        if(mp.count(key) > 0){
+            
+            auto addr = addrMp[key];
+            li.erase(addr);
             mp.erase(key);
-            l.erase(address[key]);
-            address.erase(key);
-            cursize--;
+            addrMp.erase(key);
+            
+            curSize--;
         }
-        if(cursize == size){
-          // delete last node of the cache       
-          int k = l.back();
-          mp.erase(k);
-          address.erase(k);
-          l.pop_back();
-          cursize--;
+        if(curSize == totSize){
+            
+            addrMp.erase(li.front());
+            mp.erase(li.front());
+            li.pop_front();
+            
+            curSize--;
         }
-        l.push_front(key);
-        address[key] = l.begin();
+        
+        li.push_back(key);
+        addrMp[key]  = --li.end();
         mp[key] = value;
-        cursize++;
+        
+        curSize++;
     }
 };
 
