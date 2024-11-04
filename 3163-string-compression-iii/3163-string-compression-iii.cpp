@@ -1,28 +1,23 @@
 class Solution {
 public:
-    string compressedString(string s) {
-      
-        int n = s.size(); 
+    string compressedString(string word) {
         
-        string ans = "";
+        int n = word.size(); string ans = "";
         
-        for(int i = 0 ; i < n ; ){
+
+        for(int i = 0 ; i < n ; i++){
             
-            char ch = s[i];
-            int cnt = 1 , j = i+1;
-            
-            for( ; j < n ; j++ ){
-                if(s[j] == ch && cnt < 9) cnt++;
-                else break; 
+            int cnt = 1; char ch = word[i];
+                
+            while(i+1 < n && word[i] == word[i+1] && cnt < 9){
+                i++;
+                cnt++;
             }
             
-            i = j;
             ans += to_string(cnt);
             ans += ch;
-            
         }
-        
-        return ans;
-        
+    
+          return ans;
     }
 };
